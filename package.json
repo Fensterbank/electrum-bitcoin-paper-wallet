@@ -1,21 +1,38 @@
 {
-  "name": "electrum-paper-wallet",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "file-saver": "^1.3.3",
-    "office-ui-fabric-react": "^5.58.0",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-redux": "^5.0.7",
-    "react-scripts": "1.1.1",
-    "redux": "^3.7.2",
-    "redux-devtools-extension": "^2.13.2"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  }
+    "name": "electrum-bitcoin-paper-wallet",
+    "version": "1.0.0",
+    "author": "Frédéric Bolvin <frederic@bol.vin>",
+    "url": "https://github.com/Fensterbank/electrum-bitcoin-paper-wallet",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Fensterbank/electrum-bitcoin-paper-wallet.git"
+    },
+    "keywords": [
+        "bitcoin",
+        "electrum",
+        "wallet"
+    ],
+    "dependencies": {
+        "file-saver": "^1.3.3",
+        "office-ui-fabric-react": "^5.58.0",
+        "qrcode.react": "^0.8.0",
+        "react": "^16.2.0",
+        "react-dom": "^16.2.0",
+        "react-redux": "^5.0.7",
+        "react-scripts": "1.1.1",
+        "redux": "^3.7.2",
+        "redux-devtools-extension": "^2.13.2"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test --env=jsdom",
+        "eject": "react-scripts eject"
+    },
+    "licenses": [
+        {
+            "name": "MIT",
+            "url": "http://www.opensource.org/licenses/mit-license.php"
+        }
+    ]
 }

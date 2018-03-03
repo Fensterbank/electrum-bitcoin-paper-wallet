@@ -8,3 +8,7 @@
 .wallet canvas {
     width: 100%;
 }
+
+.wallet svg {
+    display: none;
+}

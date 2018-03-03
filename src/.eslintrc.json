@@ -15,6 +15,7 @@
         "prefer-template": 2,
         "vars-on-top": 1,
         "indent": [1, 4, { "SwitchCase": 1 }],
-        "prefer-const": 1
+        "prefer-const": 1,
+        "eol-last": 1
     }
 }

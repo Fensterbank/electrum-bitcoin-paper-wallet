@@ -1,11 +1,15 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import QRCode from 'qrcode.react';
+
 import background from './background.jpg';
 import electrumLogo from './electrum_logo.png';
 
 import wallet from '../../state/wallet';
 
 import './Preview.css';
+
+const qrsize = 256;
 
 class Preview extends PureComponent {
     constructor(props) {
@@ -20,10 +24,15 @@ class Preview extends PureComponent {
         this._img = new Image();
         this._img.src = background;
 
+        this._qrCodeImg = new Image();
+
         this._electrumLogo = new Image();
         this._electrumLogo.src = electrumLogo;
 
+        this._qrSvg = document.querySelector('svg');
+
         this._img.onload = () => this.draw(true);
+        this._qrCodeImg.onload = () => this._context.drawImage(this._qrCodeImg, this.canvas.width - (this.canvas.width / 3) + qrsize / 2, this.canvas.height / 2 - qrsize / 2);
     }
 
     drawSeed = () => {
@@ -35,8 +44,18 @@ class Preview extends PureComponent {
         this._context.fillStyle = 'rgba(255,255,255,0.7)';
         this._context.fillRect(offset, posY, width, height);
 
+        let fontSize;
+        if (this.props.seed.length < 80)
+            fontSize = 40;
+        else if (this.props.seed.length < 90)
+            fontSize = 35;
+        else if (this.props.seed.length < 100)
+            fontSize = 30;
+        else
+            fontSize = 25;
+
         this._context.fillStyle = 'black';
-        this._context.font = '40px Tahoma, "Nimbus Sans"';
+        this._context.font = `${fontSize}px Tahoma, "Nimbus Sans"`;
         this._context.textAlign = 'center';
         this._context.textBaseline = 'middle';
         this._context.fillText(this.props.seed, offset + (width / 2), posY + height / 2);
@@ -74,6 +93,20 @@ class Preview extends PureComponent {
         this._context.fillText(this.props.amount, offset + (width / 2), posY + 15);
     }
 
+    drawQRCode = () => {
+        const xml = new XMLSerializer().serializeToString(this._qrSvg);
+
+        // make it base64
+        const svg64 = btoa(xml);
+        const b64Start = 'data:image/svg+xml;base64,';
+
+        // prepend a "header"
+        const image64 = b64Start + svg64;
+
+        // set it as the source of the img element
+        this._qrCodeImg.src = image64;
+    }
+
     draw(init) {
         if (!init)
             this._context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -83,6 +116,7 @@ class Preview extends PureComponent {
         this.drawElectrumLogo();
         this.drawAmount();
         this.drawSeed();
+        this.drawQRCode();
 
         this.redraw = false;
     }
@@ -100,6 +134,7 @@ class Preview extends PureComponent {
         return (
             <div className="wallet">
                 <canvas id="canvas" ref={canvas => this.canvas = canvas} width="1544" height="657" />
+                <QRCode value={this.props.seed} renderAs="svg" level="M" size={qrsize} />
             </div>
         );
     }

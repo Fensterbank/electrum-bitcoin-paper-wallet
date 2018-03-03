@@ -1,7 +1,7 @@
 import * as t from './actionTypes';
 
 const initialState = {
-    seed: 'please enter your almost awesome and unique electrum bitcoin wallet seed here',
+    seed: 'enter your electrum wallet seed here',
     amount: '0.01 BTC',
 }
 
