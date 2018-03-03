@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "author": "Frédéric Bolvin <frederic@bol.vin>",
     "url": "https://github.com/Fensterbank/electrum-bitcoin-paper-wallet",
+    "homepage": "https://fensterbank.github.io/electrum-bitcoin-paper-wallet",
     "repository": {
         "type": "git",
         "url": "https://github.com/Fensterbank/electrum-bitcoin-paper-wallet.git"
@@ -27,12 +28,17 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test --env=jsdom",
-        "eject": "react-scripts eject"
+        "eject": "react-scripts eject",
+        "predeploy": "npm run build",
+        "deploy": "gh-pages -d build"
     },
     "licenses": [
         {
             "name": "MIT",
             "url": "http://www.opensource.org/licenses/mit-license.php"
         }
-    ]
+    ],
+    "devDependencies": {
+        "gh-pages": "^1.1.0"
+    }
 }
