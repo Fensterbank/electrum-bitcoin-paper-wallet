@@ -1,0 +1,33 @@
+.controls {
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+.controls-toggle {
+    text-align: center;
+}
+
+.controls-row {
+    display: flex;
+    padding: 3px 10px;
+}
+
+.controls-row .ms-Label {
+    padding-right: 10px;
+    min-width: 90px;
+}
+
+.controls-grow {
+    flex-grow: 1;
+}
+
+.controls-amount {
+    max-width: 150px;
+}
+
+@media (min-width:480px) {
+    .controls-toggle {
+        text-align: right;
+    }
+}

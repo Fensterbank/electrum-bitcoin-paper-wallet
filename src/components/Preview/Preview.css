@@ -1,0 +1,10 @@
+.wallet {
+    margin: 0 auto;
+    border: 1px solid #333;
+    margin: 0 5px;
+    display: flex;
+}
+
+.wallet canvas {
+    width: 100%;
+}
