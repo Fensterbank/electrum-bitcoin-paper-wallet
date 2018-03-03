@@ -8,7 +8,7 @@ export default class Footer extends PureComponent {
             <span>
                 Background picture by <a href="https://wallpapertag.com/bitcoin-wallpapers#753884" rel="noopener noreferrer" target="_blank">wallpapertag.com</a>
                 <br />
-                Not affiliated with the Electrum software or Electrum Technologies GmbH
+                Not affiliated with the <a href="https://electrum.org" rel="noopener noreferrer" target="_blank">Electrum software</a> or Electrum Technologies GmbH
             </span>
             <span>
                 Released under the MIT Licence.
