@@ -9,6 +9,6 @@
     width: 100%;
 }
 
-.wallet svg {
+.wallet .qrcode {
     display: none;
 }

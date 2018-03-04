@@ -9,7 +9,7 @@ import wallet from '../../state/wallet';
 
 import './Preview.css';
 
-const qrsize = 256;
+const qrsize = 200;
 
 class Preview extends PureComponent {
     constructor(props) {
@@ -24,15 +24,18 @@ class Preview extends PureComponent {
         this._img = new Image();
         this._img.src = background;
 
-        this._qrCodeImg = new Image();
+        this._qrSeedImg = new Image();
+        this._qrAddressImg = new Image();
 
         this._electrumLogo = new Image();
         this._electrumLogo.src = electrumLogo;
 
-        this._qrSvg = document.querySelector('svg');
+        this._qrSeedSvg = document.querySelector('#seed svg');
+        this._qrAddressSvg = document.querySelector('#address svg');
 
         this._img.onload = () => this.draw(true);
-        this._qrCodeImg.onload = () => this._context.drawImage(this._qrCodeImg, this.canvas.width - (this.canvas.width / 3) + qrsize / 2, this.canvas.height / 2 - qrsize / 2);
+        this._qrSeedImg.onload = () => this._context.drawImage(this._qrSeedImg, ((this.canvas.width / 3) / 2) - (qrsize / 4), this.canvas.height / 2 - qrsize / 2);
+        this._qrAddressImg.onload = () => this._context.drawImage(this._qrAddressImg, this.canvas.width - (this.canvas.width / 3) + qrsize / 2, this.canvas.height / 2 - qrsize / 2)
     }
 
     drawSeed = () => {
@@ -78,25 +81,24 @@ class Preview extends PureComponent {
     }
 
     drawAmount = () => {
-        const offset = 100;
-        const width = (this.canvas.width / 3) - offset * 2;
+        const offset = 30;
+        const width = (this.canvas.width / 5);
         const height = 60;
-        const posY = this.canvas.height / 2 - height / 2;
 
         this._context.fillStyle = 'rgba(255,255,255,0.7)';
-        this._context.fillRect(offset, posY, width, height);
+        this._context.fillRect(this.canvas.width / 2 - width / 2, offset, width, height);
 
         this._context.fillStyle = 'black';
         this._context.font = '40px Tahoma, "Nimbus Sans"';
         this._context.textAlign = 'center';
         this._context.textBaseline = 'top';
-        this._context.fillText(this.props.amount, offset + (width / 2), posY + 15);
+        this._context.strokeText(this.props.amount, this.canvas.width / 2, offset + 15);
     }
 
     drawAddress = () => {
         const offset = 30;
-        const width = (this.canvas.width / 2.3);
-        const height = 60;
+        const width = (this.canvas.width / 3);
+        const height = 50;
 
         this._context.fillStyle = 'rgba(255,255,255,0.7)';
         this._context.fillRect(this.canvas.width - offset - width, offset, width, height);
@@ -104,28 +106,36 @@ class Preview extends PureComponent {
         this._context.textAlign = 'center';
 
         this._context.fillStyle = 'black';
-        this._context.font = '20px Tahoma, "Nimbus Sans"';
+        this._context.font = '16px Tahoma, "Nimbus Sans"';
         this._context.textBaseline = 'top';
         this._context.fillText('Receiving Address:', (this.canvas.width - offset - width) + (width / 2), offset + 8);
 
         this._context.fillStyle = '#666';
-        this._context.font = '20px Tahoma, "Nimbus Sans"';
+        this._context.font = '16px Tahoma, "Nimbus Sans"';
         this._context.textBaseline = 'bottom';
         this._context.fillText(this.props.address, (this.canvas.width - offset - width) + (width / 2), offset + height - 8);
     }
 
-    drawQRCode = () => {
-        const xml = new XMLSerializer().serializeToString(this._qrSvg);
+    drawQRSeed = () => {
+        const xml = new XMLSerializer().serializeToString(this._qrSeedSvg);
+        this._qrSeedImg.src = `data:image/svg+xml;base64,${btoa(xml)}`;
 
-        // make it base64
-        const svg64 = btoa(xml);
-        const b64Start = 'data:image/svg+xml;base64,';
+        this._context.fillStyle = 'black';
+        this._context.font = '16px Tahoma, "Nimbus Sans"';
+        this._context.textBaseline = 'top';
+        this._context.textAlign = 'center';
+        this._context.fillText('Wallet Seed', ((this.canvas.width / 3) / 2) - (qrsize / 4) + qrsize / 2, this.canvas.height / 2 + qrsize / 2 + 10);
+    }
 
-        // prepend a "header"
-        const image64 = b64Start + svg64;
+    drawQRAddress = () => {
+        const xml = new XMLSerializer().serializeToString(this._qrAddressSvg);
+        this._qrAddressImg.src = `data:image/svg+xml;base64,${btoa(xml)}`;
 
-        // set it as the source of the img element
-        this._qrCodeImg.src = image64;
+        this._context.fillStyle = 'black';
+        this._context.font = '16px Tahoma, "Nimbus Sans"';
+        this._context.textBaseline = 'top';
+        this._context.textAlign = 'center';
+        this._context.fillText('Receiving Address', this.canvas.width - (this.canvas.width / 3) + qrsize, this.canvas.height / 2 + qrsize / 2 + 10);
     }
 
     draw(init) {
@@ -138,7 +148,8 @@ class Preview extends PureComponent {
         this.drawAddress();
         this.drawAmount();
         this.drawSeed();
-        this.drawQRCode();
+        this.drawQRAddress();
+        this.drawQRSeed();
 
         this.redraw = false;
     }
@@ -156,7 +167,8 @@ class Preview extends PureComponent {
         return (
             <div className="wallet">
                 <canvas id="canvas" ref={canvas => this.canvas = canvas} width="1544" height="657" />
-                <QRCode value={this.props.seed} renderAs="svg" level="M" size={qrsize} />
+                <div className="qrcode" id="seed"><QRCode value={this.props.seed} renderAs="svg" level="M" size={qrsize} /></div>
+                <div className="qrcode" id="address"><QRCode value={this.props.address} renderAs="svg" level="M" size={qrsize} /></div>
             </div>
         );
     }
