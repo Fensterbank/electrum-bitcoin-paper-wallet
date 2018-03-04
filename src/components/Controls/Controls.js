@@ -19,7 +19,13 @@ class Controls extends Component {
                 <div className="controls-row">
                     <Label>Amount:</Label>
                     <div className="controls-amount">
-                        <TextField placeholder='enter your electrum seed' value={this.props.amount} onChanged={value => this.props.setAmount(value)} />
+                        <TextField placeholder='enter a BTC value' value={this.props.amount} onChanged={value => this.props.setAmount(value)} />
+                    </div>
+                </div>
+                <div className="controls-row">
+                    <Label>Receiving Address:</Label>
+                    <div className="controls-grow">
+                        <TextField placeholder='enter an address to send BTC to the wallet' value={this.props.address} onChanged={value => this.props.setAddress(value)} />
                     </div>
                 </div>
             </div>
@@ -30,11 +36,13 @@ class Controls extends Component {
 const mapStateToProps = state => ({
     seed: wallet.selectors.getSeed(state),
     amount: wallet.selectors.getAmount(state),
+    address: wallet.selectors.getAddress(state),
 });
 
 const mapDispatchToProps = dispatch => ({
     setSeed: (text) => dispatch(wallet.actions.setSeed(text)),
     setAmount: (amount) => dispatch(wallet.actions.setAmount(amount)),
+    setAddress: (address) => dispatch(wallet.actions.setAddress(address)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Controls);

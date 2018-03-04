@@ -93,6 +93,27 @@ class Preview extends PureComponent {
         this._context.fillText(this.props.amount, offset + (width / 2), posY + 15);
     }
 
+    drawAddress = () => {
+        const offset = 30;
+        const width = (this.canvas.width / 2.3);
+        const height = 60;
+
+        this._context.fillStyle = 'rgba(255,255,255,0.7)';
+        this._context.fillRect(this.canvas.width - offset - width, offset, width, height);
+
+        this._context.textAlign = 'center';
+
+        this._context.fillStyle = 'black';
+        this._context.font = '20px Tahoma, "Nimbus Sans"';
+        this._context.textBaseline = 'top';
+        this._context.fillText('Receiving Address:', (this.canvas.width - offset - width) + (width / 2), offset + 8);
+
+        this._context.fillStyle = '#666';
+        this._context.font = '20px Tahoma, "Nimbus Sans"';
+        this._context.textBaseline = 'bottom';
+        this._context.fillText(this.props.address, (this.canvas.width - offset - width) + (width / 2), offset + height - 8);
+    }
+
     drawQRCode = () => {
         const xml = new XMLSerializer().serializeToString(this._qrSvg);
 
@@ -114,6 +135,7 @@ class Preview extends PureComponent {
         this._context.drawImage(this._img, 0, 0, this.canvas.width, this.canvas.width * (this._img.height / this._img.width))
 
         this.drawElectrumLogo();
+        this.drawAddress();
         this.drawAmount();
         this.drawSeed();
         this.drawQRCode();
@@ -122,7 +144,7 @@ class Preview extends PureComponent {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.redraw = (this.props.seed !== nextProps.seed || this.props.amount !== nextProps.amount);
+        this.redraw = (this.props.seed !== nextProps.seed || this.props.amount !== nextProps.amount || this.props.address !== nextProps.address);
     }
 
     componentDidUpdate() {
@@ -143,6 +165,7 @@ class Preview extends PureComponent {
 const mapStateToProps = state => ({
     seed: wallet.selectors.getSeed(state),
     amount: wallet.selectors.getAmount(state),
+    address: wallet.selectors.getAddress(state),
 });
 
 export default connect(mapStateToProps)(Preview);

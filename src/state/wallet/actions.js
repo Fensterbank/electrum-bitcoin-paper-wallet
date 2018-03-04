@@ -10,6 +10,11 @@ export const setAmount = (amount) => ({
     payload: amount.substring(0, 14),
 });
 
+export const setAddress = (address) => ({
+    type: t.SET_ADDRESS,
+    payload: address.substring(0, 64),
+});
+
 export const reset = () => ({
     type: t.RESET,
 });

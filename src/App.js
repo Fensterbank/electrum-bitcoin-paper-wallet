@@ -11,7 +11,7 @@ import { loadTheme } from 'office-ui-fabric-react';
 import { initializeIcons } from 'office-ui-fabric-react/lib/Icons'
 
 import fabricTheme from './fabricTheme';
-initializeIcons('/fonts/');
+initializeIcons('fonts/');
 
 loadTheme(fabricTheme.theme);
 
